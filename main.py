@@ -1,6 +1,9 @@
 """
 Tic tak toe
 """
+import mein_modul
+
+mein_modul.begruesung('Son')
 
 
 # 1. Spielbrett erstellen
@@ -57,24 +60,26 @@ def spiel_tic_tac_to():
 
     while True:
         print_brett(brett)
-        zeile = int(input(f"Spieler {aktueller_spieler}, wähle deine Zeile (0-2)"))
-        while not (zeile >= 0 and zeile <= 2):
-            zeile = int(input(f"Hallo {aktueller_spieler}, wähle deine Zeile nur zwischen (0-2)"))
-        spalte = int(input(f" Spieler{aktueller_spieler}, wähle deine Spalte (0-2)"))
-        while not (spalte >= 0 and spalte <= 2):
-            spalte = int(input(f"Hallo {aktueller_spieler}, wähle deine Spalte nur zwischen (0-2)"))
 
-        if not mache_zug(brett, aktueller_spieler, zeile, spalte):
-            print('Ungültig, bitte erneut versuchen')
-            continue
-        if gewinn_check(brett, aktueller_spieler):
-            print_brett(brett)
-            print(f'Du hat gewonnen {aktueller_spieler}')
-            break
-        elif unentschieden_check(brett):
-            print_brett(brett)
-            print(' Unentschieden!')
-        aktueller_spieler = 'O' if aktueller_spieler == 'X' else 'X'
+        try:
+            zeile = int(input(f"Spieler {aktueller_spieler}, wähle deine Zeile (0-2)"))
+            spalte = int(input(f" Spieler{aktueller_spieler}, wähle deine Spalte (0-2)"))
+            if zeile < 0 or zeile > 2 or spalte < 0 or spalte > 2:
+                print('bitte nur 0. 1. oder 2 eingeben')
+            else:
+                if not mache_zug(brett, aktueller_spieler, zeile, spalte):
+                    print('Ungültig, bitte erneut versuchen')
+        except ValueError:
+            print('Bitte nur zahl eingeben, kein Text')
+
+    if gewinn_check(brett, aktueller_spieler):
+        print_brett(brett)
+        print(f'Du hat gewonnen {aktueller_spieler}')
+
+    elif unentschieden_check(brett):
+        print_brett(brett)
+        print(' Unentschieden!')
+    aktueller_spieler = 'O' if aktueller_spieler == 'X' else 'X'
 
 
 spiel_tic_tac_to()
